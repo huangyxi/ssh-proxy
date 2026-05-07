@@ -11,12 +11,5 @@ if [ -n "$BIND_IPS" ]; then
 	done
 fi
 
-# Secure authorized_keys if mapped by the user
-if [ -f "/authorized_keys" ]; then
-	cp /authorized_keys /home/proxy/.ssh/authorized_keys
-	chown proxy:proxy /home/proxy/.ssh/authorized_keys
-	chmod 600 /home/proxy/.ssh/authorized_keys
-fi
-
 # Start SSH daemon
 exec /usr/sbin/sshd -D -e

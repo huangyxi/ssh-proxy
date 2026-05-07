@@ -3,6 +3,9 @@ Include /etc/ssh/sshd_config.d/*.conf
 PermitRootLogin no
 PasswordAuthentication no
 
+# Allow arbitrary owner and permissions for authorized_keys (since we copy it from a volume)
+StrictModes no
+
 # Allow TCP forwarding and specific GatewayPorts for reverse tunnels (-R)
 AllowTcpForwarding yes
 GatewayPorts clientspecified
@@ -11,10 +14,8 @@ GatewayPorts clientspecified
 ClientAliveInterval 15
 ClientAliveCountMax 3
 
-# Lock down the 'proxy' user entirely
-AllowUsers proxy
-Match User proxy
-	X11Forwarding no
-	PermitTTY no
-	AllowAgentForwarding no
-	ForceCommand /sbin/nologin
+# Limit the SSH session capabilities for security hardening
+X11Forwarding no
+PermitTTY no
+AllowAgentForwarding no
+ForceCommand /sbin/nologin
