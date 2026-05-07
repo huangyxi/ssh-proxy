@@ -1,0 +1,14 @@
+services:
+  ssh-proxy:
+    image: ghcr.io/huangyxi/ssh-proxy:latest
+    container_name: ssh-proxy
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "32222:22"
+    environment:
+      - BIND_IPS=10.0.0.1/32 fd00:1234::1/64
+    volumes:
+      - ./authorized_keys:/authorized_keys:ro
+      - ./sshd_config.d:/etc/ssh/sshd_config.d:ro

@@ -1,0 +1,20 @@
+Include /etc/ssh/sshd_config.d/*.conf
+
+PermitRootLogin no
+PasswordAuthentication no
+
+# Allow TCP forwarding and specific GatewayPorts for reverse tunnels (-R)
+AllowTcpForwarding yes
+GatewayPorts clientspecified
+
+# Add KeepAlive settings to clean up dead connections (crucial for `autossh` reliability)
+ClientAliveInterval 15
+ClientAliveCountMax 3
+
+# Lock down the 'proxy' user entirely
+AllowUsers proxy
+Match User proxy
+	X11Forwarding no
+	PermitTTY no
+	PermitAgentForwarding no
+	ForceCommand /sbin/nologin
