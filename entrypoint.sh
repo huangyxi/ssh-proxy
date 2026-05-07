@@ -11,5 +11,18 @@ if [ -n "$BIND_IPS" ]; then
 	done
 fi
 
+# Create and setup SSH users if they don't exist
+SSH_USERS=${SSH_USERS:-proxy}
+for user in $SSH_USERS; do
+	if ! id -u "${user}" >/dev/null 2>&1; then
+		echo "Creating user '${user}'..."
+		adduser -D -s /sbin/nologin "${user}"
+		echo -n "${user}:*" | chpasswd -e
+		mkdir -m 700 -p "/home/${user}/.ssh"
+		chown "${user}:" "/home/${user}/.ssh"
+		echo "User '${user}' created successfully."
+	fi
+done
+
 # Start SSH daemon
 exec /usr/sbin/sshd -D -e

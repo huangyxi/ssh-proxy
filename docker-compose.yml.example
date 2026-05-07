@@ -3,12 +3,21 @@ services:
     image: ghcr.io/huangyxi/ssh-proxy:latest
     container_name: ssh-proxy
     restart: always
+
     cap_add:
       - NET_ADMIN
+
     ports:
       - "32222:22"
+
     environment:
+      # By default, this is empty, which allows binding only to localhost,
+      # 0.0.0.0, and [::], you can specify additional IPs or CIDR blocks here, separated by spaces
       - BIND_IPS=10.0.0.1/32 fd00:1234::1/64
+
+      # Default user is 'proxy', you can specify additional users here, separated by spaces
+      - SSH_USERS=proxy proxy2
+
     volumes:
       - ./authorized_keys:/home/proxy/.ssh/authorized_keys:ro
       - ./sshd_config.d:/etc/ssh/sshd_config.d:ro
