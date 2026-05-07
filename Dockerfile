@@ -14,6 +14,7 @@ FROM scratch
 
 COPY --from=builder / /
 
+ENV	BIND_IPS=
 ENV	SSH_USERS=proxy
 
 EXPOSE 22
