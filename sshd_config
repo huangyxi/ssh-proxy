@@ -16,5 +16,5 @@ AllowUsers proxy
 Match User proxy
 	X11Forwarding no
 	PermitTTY no
-	PermitAgentForwarding no
+	AllowAgentForwarding no
 	ForceCommand /sbin/nologin
