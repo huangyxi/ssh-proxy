@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Set up Docker metadata
         id: meta
-        uses: docker/meta-action@v6
+        uses: docker/metadata-action@v6
         with:
           images: ghcr.io/huangyxi
           tags: |
