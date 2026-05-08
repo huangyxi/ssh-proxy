@@ -16,7 +16,7 @@ services:
 
     # Expose SSH port, you can change the host port (left side) as needed
     ports:
-      - "32222:22"
+      - "2222:22"
 
     environment:
       # By default, this is empty, which allows binding only to localhost,
