@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ghcr.io/huangyxi
+          images: ghcr.io/huangyxi/ssh-proxy
           tags: |
             type=ref,event=branch
             type=ref,event=pr
