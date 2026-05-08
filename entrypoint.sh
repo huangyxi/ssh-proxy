@@ -26,5 +26,7 @@ for user in ${SSH_USERS}; do
 	fi
 done
 
-# Start SSH daemon
-exec /usr/sbin/sshd -D -e
+# Bind SSH to the container's primary IP address,
+# to allow listening on 22/tcp for all assigned IPs (including those added to lo)
+ssh_ip=$(hostname -i | awk '{print $1}')
+exec /usr/sbin/sshd -D -e -o "ListenAddress ${ssh_ip}"
