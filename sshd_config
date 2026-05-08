@@ -1,6 +1,5 @@
 Include /etc/ssh/sshd_config.d/*.conf
 
-PermitRootLogin no
 PasswordAuthentication no
 
 # Allow arbitrary owner and permissions for authorized_keys (since we copy it from a volume)

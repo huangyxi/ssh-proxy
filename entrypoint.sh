@@ -13,15 +13,17 @@ done
 # Create and setup SSH users if they don't exist
 SSH_USERS="${SSH_USERS:-}"
 for user in ${SSH_USERS}; do
-	if id -u "${user}" >/dev/null 2>&1; then
-		continue
+	if ! id -u "${user}" >/dev/null 2>&1; then
+		echo "Creating user '${user}'..."
+		adduser -D -s /sbin/nologin "${user}"
+		echo -n "${user}:*" | chpasswd -e
 	fi
-	echo "Creating user '${user}'..."
-	adduser -D -s /sbin/nologin "${user}"
-	echo -n "${user}:*" | chpasswd -e
-	mkdir -m 700 -p "/home/${user}/.ssh"
-	chown "${user}:" "/home/${user}/.ssh"
-	echo "User '${user}' created successfully."
+	home=$(getent passwd "${user}" | cut -d: -f6)
+	if [ -d "${home}" ] && [ ! -d "${home}/.ssh" ]; then
+		echo "Creating .ssh directory for user '${user}'..."
+		mkdir -m 700 -p "${home}/.ssh"
+		chown "${user}:" "${home}/.ssh"
+	fi
 done
 
 # Start SSH daemon

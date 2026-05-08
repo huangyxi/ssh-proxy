@@ -4,8 +4,6 @@ RUN	apk add --no-cache openssh-server
 
 COPY	sshd_config /etc/ssh/sshd_config
 
-RUN	mkdir -p /etc/ssh/sshd_config.d
-
 COPY	entrypoint.sh /entrypoint.sh
 RUN	chmod +x /entrypoint.sh
 

@@ -4,9 +4,17 @@ services:
     container_name: ssh-proxy
     restart: always
 
+    # NET_ADMIN capability is required to add IP addresses to the loopback interface
     cap_add:
       - NET_ADMIN
 
+    # Optional: Adjust sysctl settings to allow binding to low ports (<1024) if needed,
+    # requiring Linux kernel 4.11+
+    # sysctls:
+    #   net.ipv4.ip_unprivileged_port_start: 0
+    #   net.ipv6.ip_unprivileged_port_start: 0
+
+    # Expose SSH port, you can change the host port (left side) as needed
     ports:
       - "32222:22"
 
@@ -19,5 +27,9 @@ services:
       - SSH_USERS=proxy proxy2
 
     volumes:
+      # Mount your authorized_keys to correct location for the 'proxy' user,
+      # you can also add keys for other users if needed
       - ./authorized_keys:/home/proxy/.ssh/authorized_keys:ro
+
+      # Optionally mount additional SSH daemon configuration snippets if needed
       - ./sshd_config.d:/etc/ssh/sshd_config.d:ro
